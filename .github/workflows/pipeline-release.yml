@@ -1,0 +1,42 @@
+name: CI/CD Pipeline - Main & Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Await Release Approval
+        uses: hmarr/auto-approve-action@v2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Notify Team
+        run: echo "Release approved! Notify stakeholders."
+      
+      - name: Deploy to Production (optional)
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.RAILWAY_PROD_TOKEN }}" \
+            https://railway.app/deploy
