@@ -1,11 +1,12 @@
 {
     "name": "projeto-ci-cd",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "",
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
-        "test": "echo \"Running tests...\" && exit 0"
+        "test": "echo \"Running tests...\" && exit 0",
+        "release": "standard-version"
     },
     "repository": {
         "type": "git",
@@ -19,5 +20,8 @@
     "homepage": "https://github.com/rayanepimentel/projeto-ci-cd#readme",
     "dependencies": {
         "express": "^4.21.1"
+    },
+    "devDependencies": {
+        "standard-version": "^9.5.0"
     }
 }
