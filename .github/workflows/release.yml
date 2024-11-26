@@ -1,7 +1,7 @@
 name: CI/CD Pipeline - Release
 
 on:
-  push:
+  pull_request:
     branches:
       - main
   workflow_dispatch:  # Permite que o workflow seja disparado manualmente
