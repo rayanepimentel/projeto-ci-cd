@@ -18,9 +18,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-
+          
+# Instalar dependências omitindo as de desenvolvimento se não estiver em ambiente de desenvolvimento
       - name: Install dependencies
-        run: npm install
+        run: |
+          if [ "$GITHUB_REF" != "refs/heads/dev" ]; then
+            npm install --omit=dev
+          else
+            npm install
+          fi
 
       - name: Run tests
         run: npm test  # Realiza testes
