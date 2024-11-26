@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - Dev & Test
+name: CI/CD Pipeline - Build & Deploy
 
 on:
   pull_request:
