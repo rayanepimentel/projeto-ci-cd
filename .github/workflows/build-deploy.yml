@@ -1,0 +1,45 @@
+name: CI/CD Pipeline - Dev & Test
+
+on:
+  pull_request:
+    branches:
+      - dev 
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+  deploy-to-dev:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to Dev
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.RAILWAY_DEV_TOKEN }}" \
+            https://adorable-trust-dev.up.railway.app/
+
+  deploy-to-test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to Test
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.RAILWAY_TEST_TOKEN }}" \
+            https://clever-benevolence-test.up.railway.app/
