@@ -1,7 +1,7 @@
 name: CI/CD Pipeline - Main & Release
 
 on:
-  push:
+  pull_request: # Garante que o workflow será acionado em eventos de Pull Request
     branches:
       - main
 
@@ -30,7 +30,8 @@ jobs:
       - name: Await Release Approval
         uses: hmarr/auto-approve-action@v2
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }} # Passa o número do PR automaticamente
 
       - name: Notify Team
         run: echo "Release approved! Notify stakeholders."
